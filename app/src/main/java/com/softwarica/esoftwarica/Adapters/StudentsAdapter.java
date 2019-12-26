@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.softwarica.esoftwarica.EditDetailsActivity;
 import com.softwarica.esoftwarica.Models.Students;
 import com.softwarica.esoftwarica.R;
 
@@ -59,12 +60,42 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
         }
 
 
+        //Adding click listener in an imageview
+        holder.imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Hello this is : "+ students.getFullname(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Students students = studentsList.get(position);
+                studentsList.remove(position);
+                notifyItemRemoved(position);
+                Toast.makeText(context, students + "details removed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Students edtStudents = studentsList.get(position);
+                int index = studentsList.indexOf(edtStudents);
+                EditDetailsActivity.index = index;
+                Intent intent = new Intent(context, EditDetailsActivity.class);
+                context.startActivity(intent);
+
+            }
+        });
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return studentsList.size();
     }
 
     public class StudentsViewHolder extends RecyclerView.ViewHolder {

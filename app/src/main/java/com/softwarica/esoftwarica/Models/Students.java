@@ -5,11 +5,11 @@ public class Students {
     private int imageId;
     private String fullname;
     private String gender;
-    private String age;
+    private int age;
     private String address;
 
 
-    public Students(String fullname, String gender, String age, String address) {
+    public Students(String fullname, String gender, int age, String address) {
         this.imageId = imageId;
         this.fullname = fullname;
         this.gender = gender;
@@ -41,11 +41,11 @@ public class Students {
         this.gender = gender;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
