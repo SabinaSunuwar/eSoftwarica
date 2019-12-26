@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(etUsername.getText().toString().equals("softwarica") && etPassword.getText().toString().equals("coventry")){
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
 
                 else if
