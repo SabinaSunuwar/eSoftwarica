@@ -1,5 +1,6 @@
 package com.softwarica.esoftwarica.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -23,10 +24,9 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
     Context context;
     List<Students> studentsList;
 
-    public StudentsAdapter(Context context, List<Students> contactsList) {
+    public StudentsAdapter(Context context, List<Students> studentsList) {
         this.context = context;
         this.studentsList = studentsList;
-
     }
 
     @NonNull
@@ -34,20 +34,17 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
     public StudentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_students,parent,false);
-
         return new StudentsViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull StudentsViewHolder holder, final int position) {
         final Students students = studentsList.get(position);
-
-        holder.imgProfile.setImageResource(students.getImageId());
-        holder.tvName.setText(students.getFullname());
-        holder.tvAge.setText(students.getAge());
-        holder.tvGender.setText(students.getGender());
+        holder.tvName.setText(students.getName());
+        holder.tvAge.setText(students.getAge()+"");
         holder.tvAddress.setText(students.getAddress());
-
+        holder.tvGender.setText(students.getGender());
         holder.imgDelete.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_delete_black_24dp));
         holder.imgEdit.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_edit_black_24dp));
         String gender = students.getGender();
@@ -59,22 +56,20 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
             holder.imgProfile.setImageResource(R.drawable.male);
         }
 
-
-        //Adding click listener in an imageview
         holder.imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Hello this is : "+ students.getFullname(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "This is : "+ students.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Students students = studentsList.get(position);
+                Students delStudents = studentsList.get(position);
                 studentsList.remove(position);
                 notifyItemRemoved(position);
-                Toast.makeText(context, students + "details removed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, delStudents + "is removed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -89,8 +84,6 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
 
             }
         });
-
-
     }
 
     @Override
@@ -98,23 +91,22 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.Studen
         return studentsList.size();
     }
 
-    public class StudentsViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView imgProfile, imgDelete, imgEdit;
+    public class StudentsViewHolder extends RecyclerView.ViewHolder{
         TextView tvName, tvAge, tvAddress, tvGender;
-
+        ImageView imgProfile,imgDelete,imgEdit;
         public StudentsViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            imgProfile = itemView.findViewById(R.id.imgProfile);
             tvName = itemView.findViewById(R.id.tvName);
             tvAge = itemView.findViewById(R.id.tvAge);
-            tvGender = itemView.findViewById(R.id.tvGender);
             tvAddress = itemView.findViewById(R.id.tvAddress);
+            tvGender = itemView.findViewById(R.id.tvGender);
+            imgProfile = itemView.findViewById(R.id.imgProfile);
             imgDelete = itemView.findViewById(R.id.imgDelete);
             imgEdit = itemView.findViewById(R.id.imgEdit);
-
-
         }
     }
+
+
+
 }
+

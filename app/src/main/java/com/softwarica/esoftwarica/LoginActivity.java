@@ -29,27 +29,34 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(etUsername.getText().toString().equals("softwarica") && etPassword.getText().toString().equals("coventry")){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                }
+                String username = etUsername.getText().toString(),
+                        password = etPassword.getText().toString();
 
-                else if
-                (TextUtils.isEmpty(etUsername.getText())) {
-                    etUsername.setError("Please enter username.");
-                    return;
-                }
-
-                else if
-                (TextUtils.isEmpty(etPassword.getText())) {
-                    etPassword.setError("Please enter password.");
-                    return;
-                }
-
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "Invalid Username or Password.", Toast.LENGTH_SHORT).show();
+                if(validate()) {
+                    if ((username.equals("softwarica") && (password.equals("coventry")))) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
+
+
+    }
+
+    private boolean validate() {
+        if (TextUtils.isEmpty(etUsername.getText())) {
+            etUsername.setError("Enter username");
+            etUsername.requestFocus();
+            return false;
+        } else if (TextUtils.isEmpty(etPassword.getText())) {
+            etPassword.setError("Enter password");
+            etPassword.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

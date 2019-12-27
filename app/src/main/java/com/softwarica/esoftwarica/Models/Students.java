@@ -2,35 +2,23 @@ package com.softwarica.esoftwarica.Models;
 
 public class Students {
 
-    private int imageId;
-    private String fullname;
-    private String gender;
+    private String name, gender;
     private int age;
     private String address;
 
-
-    public Students(String fullname, String gender, int age, String address) {
-        this.imageId = imageId;
-        this.fullname = fullname;
+    public Students(String name, String gender, int age, String address) {
+        this.name = name;
         this.gender = gender;
         this.age = age;
         this.address = address;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getName() {
+        return name;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {

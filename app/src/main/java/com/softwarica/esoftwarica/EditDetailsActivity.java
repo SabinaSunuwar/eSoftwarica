@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 public class EditDetailsActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
-    private EditText etFullName, etAge, etAddress;
-    private RadioGroup rdoGender;
-    private RadioButton rdoMale, rdoFemale, rdoOthers;
-    private Button btnUpdate;
-    private String name, address, gender;
-    private int age;
+    EditText etName, etAge, etAddress;
+    RadioGroup rdoGender;
+    RadioButton rdoMale, rdoFemale, rdoeOthers;
+    Button btnUpdate;
+    String name, address, gender;
+    int age;
     public static int index;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,34 +36,31 @@ public class EditDetailsActivity extends AppCompatActivity implements RadioGroup
 
         getWindow().setLayout((int) (width * .8), (int) (height * .8));
 
-        etFullName = findViewById(R.id.etFullName);
+        etName = findViewById(R.id.etName);
         etAge = findViewById(R.id.etAge);
         etAddress = findViewById(R.id.etAddress);
         btnUpdate = findViewById(R.id.btnUpdate);
         rdoGender = findViewById(R.id.rdoGender);
         rdoMale = findViewById(R.id.rdoMale);
         rdoFemale = findViewById(R.id.rdoFemale);
-        rdoOthers = findViewById(R.id.rdoOthers);
-
-
-        etFullName.setText(MainActivity.studentsList.get(index).getFullname());
+        rdoeOthers = findViewById(R.id.rdoOthers);
+        etName.setText(MainActivity.studentsList.get(index).getName());
         etAge.setText(MainActivity.studentsList.get(index).getAge() + "");
         etAddress.setText(MainActivity.studentsList.get(index).getAddress());
         gender = MainActivity.studentsList.get(index).getGender();
-
         if (gender == "male") {
             rdoMale.setChecked(true);
             rdoFemale.setChecked(false);
-            rdoOthers.setChecked(false);
+            rdoeOthers.setChecked(false);
         } else if (gender == "female") {
             rdoMale.setChecked(false);
             rdoFemale.setChecked(true);
-            rdoOthers.setChecked(false);
+            rdoeOthers.setChecked(false);
         }
         if (gender == "other") {
             rdoMale.setChecked(false);
             rdoFemale.setChecked(false);
-            rdoOthers.setChecked(true);
+            rdoeOthers.setChecked(true);
         }
 
 
@@ -71,15 +69,15 @@ public class EditDetailsActivity extends AppCompatActivity implements RadioGroup
             @Override
             public void onClick(View v) {
                 if (validate()) {
-                    name = etFullName.getText().toString();
+                    name = etName.getText().toString();
                     address = etAddress.getText().toString();
                     age = Integer.parseInt(etAge.getText().toString());
                     try {
-                        MainActivity.studentsList.get(index).setFullname(name);
+                        MainActivity.studentsList.get(index).setName(name);
                         MainActivity.studentsList.get(index).setAddress(address);
                         MainActivity.studentsList.get(index).setAge(age);
                         MainActivity.studentsList.get(index).setGender(gender);
-                        Toast.makeText(EditDetailsActivity.this, "Student Details Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditDetailsActivity.this, "Student Details Updated", Toast.LENGTH_SHORT).show();
                         finish();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -92,9 +90,9 @@ public class EditDetailsActivity extends AppCompatActivity implements RadioGroup
     }
 
     private boolean validate() {
-        if (TextUtils.isEmpty(etFullName.getText())) {
-            etFullName.setError("Enter full name");
-            etFullName.requestFocus();
+        if (TextUtils.isEmpty(etName.getText())) {
+            etName.setError("Enter full name");
+            etName.requestFocus();
             return false;
         } else if (TextUtils.isEmpty(etAge.getText())) {
             etAge.setError("Enter the age");
@@ -123,9 +121,8 @@ public class EditDetailsActivity extends AppCompatActivity implements RadioGroup
             gender = "female";
         }
         if (i == R.id.rdoOthers) {
-            gender = "others";
+            gender = "other";
         }
     }
 }
-
 

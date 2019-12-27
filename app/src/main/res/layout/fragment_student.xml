@@ -27,7 +27,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etFullName"
+            android:id="@+id/etName"
             android:hint="Full Name"/>
 
         <EditText
@@ -46,7 +46,7 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rdoGroup">
+            android:id="@+id/rdoGender">
 
             <RadioButton
                 android:layout_width="match_parent"
@@ -78,8 +78,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Login"
+            android:layout_marginTop="50dp"
             android:text="save"
+            android:textColor="@color/white"
             android:background="@drawable/round_button"
             android:id="@+id/btnSave"
             />

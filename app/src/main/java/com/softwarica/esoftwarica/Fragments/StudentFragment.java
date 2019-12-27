@@ -1,111 +1,90 @@
 package com.softwarica.esoftwarica.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.softwarica.esoftwarica.MainActivity;
+import com.softwarica.esoftwarica.Models.Students;
 import com.softwarica.esoftwarica.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StudentFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StudentFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
-public class StudentFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class StudentFragment extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public StudentFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StudentFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StudentFragment newInstance(String param1, String param2) {
-        StudentFragment fragment = new StudentFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    EditText etName, etAge, etAddress;
+    RadioGroup rdoGender;
+    Button btnSave;
+    String name, address, gender = "male";
+    int age;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student, container, false);
+        View view = inflater.inflate(R.layout.fragment_student, container, false);
+        etName = view.findViewById(R.id.etName);
+        etAge = view.findViewById(R.id.etAge);
+        etAddress = view.findViewById(R.id.etAddress);
+        rdoGender = view.findViewById(R.id.rdoGender);
+        btnSave = view.findViewById(R.id.btnSave);
+        rdoGender.setOnCheckedChangeListener(this);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validate()){
+                    name = etName.getText().toString();
+                    address = etAddress.getText().toString();
+                    age = Integer.parseInt(etAge.getText().toString());
+                    MainActivity.studentsList.add(new Students(name,gender,age,address));
+                    Toast.makeText(getContext(), "Added successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        if (checkedId == R.id.rdoMale) {
+            gender = "male";
+        }
+        if (checkedId == R.id.rdoFemale) {
+            gender = "female";
+        }
+        if (checkedId == R.id.rdoOthers) {
+            gender = "others";
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    private boolean validate() {
+        if (TextUtils.isEmpty(etName.getText())) {
+            etName.setError("Enter full name");
+            etName.requestFocus();
+            return false;
+        } else if (TextUtils.isEmpty(etAge.getText())) {
+            etAge.setError("Enter the age");
+            etAge.requestFocus();
+            return false;
+        } else if (TextUtils.isEmpty(etAddress.getText())) {
+            etAddress.setError("Enter the address");
+            etAddress.requestFocus();
+            return false;
+        } else if (TextUtils.isEmpty(gender)) {
+            Toast.makeText(getContext(), "Select gender", Toast.LENGTH_SHORT).show();
+            return false;
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        return true;
     }
 }
